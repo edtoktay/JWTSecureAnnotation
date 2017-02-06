@@ -26,7 +26,7 @@ JWT relies on other JSON-based standards: JWS (JSON Web Signature) RFC 7515 and 
   joda-time
   
 #### org.apache.commons
-  commons-lang3[3.4]
+  commons-lang3[3.5]
   
 ## Installation
   
