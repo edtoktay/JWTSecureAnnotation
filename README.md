@@ -29,9 +29,29 @@ JWT relies on other JSON-based standards: JWS (JSON Web Signature) RFC 7515 and 
   commons-lang3[3.5]
   
 ## Installation
-  
-## Quick Start
-  
+  In pom.xml
+  ```xml
+  <repositories>
+		<repository>
+			<id>Java-api</id>
+			<url>https://packagecloud.io/edtoktay/Java-apis/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+  ```
+  and 
+  ```xml
+  <dependency>
+    <groupId>org.edtoktay.springtools.security</groupId>
+    <artifactId>SpringJwt</artifactId>
+    <version>1.0</version>
+  </dependency>
+  ```
 # References:
 Les Hazlewood. 2016. Java JWT: JSON Web Token for Java and Android. [ONLINE] Available at: https://github.com/jwtk/jjwt. [Accessed 6 February 2017].
 
