@@ -52,6 +52,81 @@ JWT relies on other JSON-based standards: JWS (JSON Web Signature) RFC 7515 and 
     <version>1.0</version>
   </dependency>
   ```
+## Usage
+application.yml
+```yml
+security:
+  jjwt:
+    refresh-token-exp-time: 10
+    token-header: Authorization
+    token-issuer: http://deniz.one
+    token-expiration-time: 10
+    token-sign-key: thisisthesignkey
+    header-prefix: bearer
+    authentication-entry-point:
+```
+JwtConfiguration.java
+```java
+import org.edtoktay.springtools.security.jwt.configure.JjwtProp;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan("org.edtoktay.springtools.security")
+public class JwtConfiguration {
+	@Value("${security.jjwt.token-expiration-time}")
+	private int tokenExpirationTime;
+	@Value("${security.jjwt.refresh-token-exp-time}")
+	private int refreshTokenExpTime;
+	@Value("${security.jjwt.token-issuer}")
+	private String tokenIssuer;
+	@Value("${security.jjwt.token-sign-key}")
+	private String tokenSignKey;
+	@Value("${security.jjwt.token-header}")
+	private String tokenHeader;
+	@Bean
+	JjwtProp props(){
+		JjwtProp jjwtProp = new JjwtProp();
+		jjwtProp.setRefreshTokenExpTime(refreshTokenExpTime);
+		jjwtProp.setTokenExpirationTime(tokenExpirationTime);
+		jjwtProp.setTokenHeader(tokenHeader);
+		jjwtProp.setTokenIssuer(tokenIssuer);
+		jjwtProp.setTokenSignKey(tokenSignKey);
+		return jjwtProp;
+	}
+}
+``` 
+AuthenticatedService.java
+```java
+import org.edtoktay.springtools.security.jwt.annotation.JwtSecured;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class AuthedService {
+	@RequestMapping(value = "/api/auth/hello", method=RequestMethod.GET)
+	@JwtSecured
+	public String hello(){
+		return "Hello World";
+	}
+	
+	@RequestMapping(value = "/none/hello", method=RequestMethod.GET)
+	@JwtSecured
+	public String hello2(){
+		return "Hello World2";
+	}
+	
+	@RequestMapping(value = "/none/hello2", method=RequestMethod.GET)
+	@JwtSecured(roles= {"ROLE_CLIENT"})
+	public String hello3(){
+		return "Hello World2";
+	}
+}
+```
+For a running example please checkout SpringToolsTest repository
 # References:
 Les Hazlewood. 2016. Java JWT: JSON Web Token for Java and Android. [ONLINE] Available at: https://github.com/jwtk/jjwt. [Accessed 6 February 2017].
 
