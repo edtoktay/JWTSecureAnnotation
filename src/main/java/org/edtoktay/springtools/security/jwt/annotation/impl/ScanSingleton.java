@@ -50,9 +50,9 @@ public class ScanSingleton {
 	public String getAccessString(String path) {
 		StringBuilder sb = new StringBuilder();
 		int count = this.privateMethodMap.get(path).size();
-		String prefix = "hasRole(";
-		String suffix = ")";
-		String conj = ") and ";
+		String prefix = "hasRole('";
+		String suffix = "')";
+		String conj = "') and ";
 		for (String role : this.privateMethodMap.get(path)) {
 			if (StringUtils.isNotBlank(role)) {
 				sb.append(prefix).append(role);
