@@ -52,7 +52,7 @@ public class ScanSingleton {
 		int count = this.privateMethodMap.get(path).size();
 		String prefix = "hasRole('";
 		String suffix = "')";
-		String conj = "') and ";
+		String conj = "') or ";
 		for (String role : this.privateMethodMap.get(path)) {
 			if (StringUtils.isNotBlank(role)) {
 				sb.append(prefix).append(role);
