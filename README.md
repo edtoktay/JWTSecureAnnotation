@@ -8,25 +8,6 @@ JWT relies on other JSON-based standards: JWS (JSON Web Signature) RFC 7515 and 
 ### Java and JWT
 #### JJWT Library (Java JWT: JSON Web Token for Java and Android)
 "JJWT aims to be the easiest to use and understand library for creating and verifying JSON Web Tokens (JWTs) on the JVM. JJWT is a Java implementation based on the JWT, JWS, JWE, JWK and JWA RFC specifications."(Hazlewood, 2016)
-
-### Dependencies
-#### org.springframework.boot [1.4.4.RELEASE]
-  spring-boot-starter-parent
-  
-  spring-boot-starter
-  
-  spring-boot-starter-web
-  
-  spring-boot-configuration-processor
-  
-#### io.jsonwebtoken
-  jjwt[0.7.0]
-  
-#### joda-time
-  joda-time
-  
-#### org.apache.commons
-  commons-lang3[3.5]
   
 ## Installation
   In pom.xml
@@ -107,26 +88,47 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AuthedService {
+	//Requires Authentication but no role required
 	@RequestMapping(value = "/api/auth/hello", method=RequestMethod.GET)
 	@JwtSecured
 	public String hello(){
 		return "Hello World";
 	}
-	
+	//Requires Authentication and ROLE_ADMIN role
 	@RequestMapping(value = "/none/hello", method=RequestMethod.GET)
-	@JwtSecured
+	@JwtSecured(roles= {"ROLE_ADMIN"})
 	public String hello2(){
 		return "Hello World2";
 	}
-	
+	//Requires Authentication and either ROLE_ADMIN or ROLE_CLIENT roles
 	@RequestMapping(value = "/none/hello2", method=RequestMethod.GET)
-	@JwtSecured(roles= {"ROLE_CLIENT"})
+	@JwtSecured(roles= {"ROLE_ADMIN", "ROLE_CLIENT"})
 	public String hello3(){
 		return "Hello World2";
 	}
 }
 ```
 For a running example please checkout SpringToolsTest repository
+
+### Dependencies
+#### org.springframework.boot [1.4.4.RELEASE]
+  spring-boot-starter-parent
+  
+  spring-boot-starter
+  
+  spring-boot-starter-web
+  
+  spring-boot-configuration-processor
+  
+#### io.jsonwebtoken
+  jjwt[0.7.0]
+  
+#### joda-time
+  joda-time
+  
+#### org.apache.commons
+  commons-lang3[3.5]
+  
 # References:
 Les Hazlewood. 2016. Java JWT: JSON Web Token for Java and Android. [ONLINE] Available at: https://github.com/jwtk/jjwt. [Accessed 6 February 2017].
 
